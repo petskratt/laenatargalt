@@ -120,10 +120,10 @@
 	
 	$(".interest-slider").slider({
 		range: "min",
-		min: 13,
-		max: 26,
+		min: 12,
+		max: 22,
 		step: 0.5,
-		value: 19,
+		value: 18,
 		slide: function(event, ui) {
 		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), ui.value);
 		}
@@ -143,7 +143,7 @@
     var activateTab = function ($tab) {
      
     
-      var rates = { "#tab1": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
+      var rates = { "#tab1": { rate: { min: 12, max: 22, avg: 18 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
       						term: { min: 30, max: 360, avg: 60, step: 30 },
       						amount: { min: 200, max: 4000, avg: 500 },
       						fee: { min: 10, max: 10, rate: 0 },
@@ -153,7 +153,7 @@
       						amount: { min: 120, max: 10000, avg: 800 },
       						fee: { min: 17, max: 17, rate: 0 },
       						penalty: { fee: 16, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab3": { rate: { min: 2, max: 6, avg: 3 }, name: { est: "kodulaen", rus: "жилищный кредит" },
+      			  "#tab3": { rate: { min: 2, max: 6, avg: 3.5 }, name: { est: "kodulaen", rus: "жилищный кредит" },
       			  			term: { min: 1440, max: 14400, avg: 3600, step: 360 },
       						amount: { min: 1900, max: 200000, avg: 50000 },
       						fee: { min: 64, max: 192, rate: 0.01 },
@@ -164,7 +164,7 @@
       						fee: { min: 175, max: 9999999, rate: 0.01 },
       						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab5": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "väikelaen", rus: "потребительский кредит" },
-      			  			term: { min: 30, max: 360, avg: 60, step: 30 },
+      			  			term: { min: 30, max: 1800, avg: 60, step: 30 },
       						amount: { min: 320, max: 10000, avg: 1000 },
       						fee: { min: 32, max: 9999999, rate: 0.015 },
       						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
@@ -175,7 +175,7 @@
       						penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab7": { rate: { min: 112, max: 245, avg: 146 }, name: { est: "kiirlaen", rus: "быстрый кредит" },
       			  			term: { min: 30, max: 360, avg: 60, step: 30 },
-      						amount: { min: 50, max: 2000, avg: 130 },
+      						amount: { min: 50, max: 1500, avg: 130 },
       						fee: { min: 0, max: 9999999, rate: 0.35 },
       						penalty: { fee: 20, rate: { est: "0,75% päevas", rus: "0,75% в день" } } }
       			  };
