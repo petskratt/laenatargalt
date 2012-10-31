@@ -1,7 +1,7 @@
 ;(function ($, window, undefined) {
   'use strict';
 
-  var fee = 32;
+  var fee = 10;
   var periods = { "est": { day: "päeva", month: "kuud", year: "aastat"}, "rus": { day: "д.", month: "мес.", year: "лет"} };
   var penalty = 8;
   
