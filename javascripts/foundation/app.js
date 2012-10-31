@@ -1,9 +1,9 @@
 ;(function ($, window, undefined) {
   'use strict';
 
-  var fee = 10;
+  var fee = { min: 10, max: 10, rate: 0 };
   var periods = { "est": { day: "päeva", month: "kuud", year: "aastat"}, "rus": { day: "д.", month: "мес.", year: "лет"} };
-  var penalty = 8;
+  var penalty = { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } };
   
   // 'improve' Math.round() to support a second argument http://stackoverflow.com/a/10453009
   var _round = Math.round;
@@ -46,11 +46,14 @@
   
   $.fn.loanCalc = function (amount, period, interest) {
   
-  
+  		var currentFee = amount * fee["rate"];
+  		if ( currentFee < fee["min"] ) { currentFee = fee["min"]; }
+  		if ( currentFee > fee["max"] ) { currentFee = fee["max"]; }
 
   		
-  		$(".fee").html(fee);
-  		$(".penalty").html(penalty);
+  		$(".fee").html(Math.round(currentFee));
+  		$(".penalty").html(penalty["rate"][lang]);
+  		$(".penalty-fee").html(penalty["fee"]);
   		
 	  	$(".sum").html(amount);
 	  	
@@ -76,10 +79,10 @@
 	  	$(".annuity").html(Math.round(annuity));
 	  	$(".totalsum").html(Math.round(totalsum));
 	  	$(".totalinterest").html(Math.round(totalinterest));
-	  	$(".amountminusfee").html(Math.round(amount-fee));
-	  	$(".reversediscount").html( Math.round( (totalsum / (amount-fee)) * 100 ) - 100 );
+	  	$(".amountminusfee").html(Math.round(amount-currentFee));
+	  	$(".reversediscount").html( Math.round( (totalsum / (amount-currentFee)) * 100 ) - 100 );
 	  	
-	  	var apr = calculateAPRmagic (amount, fee, annuity, payments);
+	  	var apr = calculateAPRmagic (amount, currentFee, annuity, payments);
 	  	
 	  	$(".apr").html(Math.round(apr*100, 2));
 	  	
@@ -143,31 +146,38 @@
       var rates = { "#tab1": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
       						term: { min: 30, max: 360, avg: 60, step: 30 },
       						amount: { min: 200, max: 4000, avg: 500 },
-      						fee: 10 },
+      						fee: { min: 10, max: 10, rate: 0 },
+      						penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab2": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "järelmaks", rus: "кредит в рассрочку" },
       			  			term: { min: 120, max: 1440, avg: 240, step: 30 },
       						amount: { min: 120, max: 10000, avg: 800 },
-      						fee: 17 },
+      						fee: { min: 17, max: 17, rate: 0 },
+      						penalty: { fee: 16, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab3": { rate: { min: 2, max: 6, avg: 3 }, name: { est: "kodulaen", rus: "жилищный кредит" },
       			  			term: { min: 1440, max: 14400, avg: 3600, step: 360 },
       						amount: { min: 1900, max: 200000, avg: 50000 },
-      						fee: 64 },
+      						fee: { min: 64, max: 192, rate: 0.01 },
+      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab4": { rate: { min: 5.5, max: 12, avg: 6 }, name: { est: "autoliising", rus: "лизинг автомобилей"  },
       			  			term: { min: 360, max: 2160, avg: 1440, step: 30 },
       						amount: { min: 3000, max: 100000, avg: 10000 },
-      						fee: 175 },
+      						fee: { min: 175, max: 9999999, rate: 0.01 },
+      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab5": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "väikelaen", rus: "потребительский кредит" },
       			  			term: { min: 30, max: 360, avg: 60, step: 30 },
       						amount: { min: 320, max: 10000, avg: 1000 },
-      						fee: 32 },
+      						fee: { min: 32, max: 9999999, rate: 0.015 },
+      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab6": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "arvelduslaen", rus: "расчетный кредит" },
       			  			term: { min: 30, max: 360, avg: 60, step: 30 },
       						amount: { min: 190, max: 2000, avg: 500 },
-      						fee: 6 },
+      						fee: { min: 6, max: 9999999, rate: 0.01 },
+      						penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
       			  "#tab7": { rate: { min: 112, max: 245, avg: 146 }, name: { est: "kiirlaen", rus: "быстрый кредит" },
       			  			term: { min: 30, max: 360, avg: 60, step: 30 },
       						amount: { min: 50, max: 2000, avg: 130 },
-      						fee: 35 }
+      						fee: { min: 0, max: 9999999, rate: 0.35 },
+      						penalty: { fee: 20, rate: { est: "0,75% päevas", rus: "0,75% в день" } } }
       			  };
 
     
@@ -194,6 +204,7 @@
       $(".loantype").html(rates[target]["name"][lang]);
       
       fee = rates[target]["fee"];
+      penalty = rates[target]["penalty"];
 
       
       $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseInt ($(".interest-slider").slider("value")) );
