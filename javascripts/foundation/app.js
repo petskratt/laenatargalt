@@ -101,7 +101,7 @@
 		value: 500,
 		slide: function(event, ui) {
 		 // $("#sum").html(ui.value);
-		 $.fn.loanCalc (ui.value, parseInt ($(".period-slider").slider("value")), parseInt ($(".interest-slider").slider("value"))  );
+		 $.fn.loanCalc (ui.value, parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value"))  );
 		}
 	});
 	
@@ -114,7 +114,7 @@
 		slide: function(event, ui) {
 		 // $("#sum").html(ui.value);
 		  
-		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), ui.value, parseInt ($(".interest-slider").slider("value")) );
+		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), ui.value, parseFloat ($(".interest-slider").slider("value")) );
 		}
 	});
 	
@@ -129,7 +129,7 @@
 		}
 	});
 	
-	$.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseInt ($(".interest-slider").slider("value")) );
+	$.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value")) );
     
   });  
   
@@ -207,7 +207,7 @@
       penalty = rates[target]["penalty"];
 
       
-      $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseInt ($(".interest-slider").slider("value")) );
+      $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value")) );
 
       if (hasHash) {
         contentLocation = target + 'Tab';
