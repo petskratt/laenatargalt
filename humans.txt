@@ -1,8 +1,10 @@
-/* Foundation was made by ZURB, an interaction design and design strategy firm in Campbell, CA */
+/* laenatargalt.ee was made by Kontuur Leo Burnett & Peeter Marvet */
+/* laenatargalt.ee is based Foundation that was made by ZURB, an interaction design and design strategy firm in Campbell, CA */
+/* kontuur.ee */
 /* zurb.com */
 /* humanstxt.org */
 
 /* SITE */
   Standards: HTML5, CSS3
-  Components: jQuery, Orbit, Reveal
-  Software: Coda, Textmate, Git
+  Components: jQuery
+  Software: Coda, Panic, GitHUB, Tower, Codekit
