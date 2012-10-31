@@ -1,0 +1,285 @@
+// You custom settings file to override Foundation defaults
+@import "settings";
+
+// Comment out this import if you are customizing you imports below
+@import "foundation";
+
+// ----------------------------------------
+// Import specific parts of Foundation by commenting the import "foundation"
+// and uncommenting what you want below. You must uncomment the following if customizing
+
+// @import "compass/css3";
+// @import "foundation/settings";
+// @import "foundation/functions/all";
+
+// Control which mixins you have access too
+
+// @import "foundation/mixins/clearfix";
+// @import "foundation/mixins/css-triangle";
+// @import "foundation/mixins/font-size";
+
+// Must include next two for semantic grid to work
+
+// @import "foundation/mixins/respond-to";
+// @import "foundation/mixins/semantic-grid";
+
+// @import "foundation/common/globals";
+// @import "modular-scale";
+
+// Must include the grid for any responsiveness
+
+// @import "foundation/components/grid";
+
+// Control which common styles get compiled
+
+// @import "foundation/common/typography";
+// @import "foundation/common/forms";
+
+// Control which components you get if customizing
+
+// @import "foundation/components/modules/buttons";
+// @import "foundation/components/modules/tabs";
+// @import "foundation/components/modules/ui";
+// @import "foundation/components/modules/topbar";
+// @import "foundation/components/modules/navbar";
+// @import "foundation/components/modules/orbit";
+// @import "foundation/components/modules/reveal";
+// @import "foundation/components/modules/offcanvas";
+
+$tkaBlue: #005baa;
+$tkaOrange: #faa61a;
+
+body {
+	min-width: 480px;
+	background: black url('../images/bg.png') top left;
+	.wrapper {
+		background: transparent url('../images/mood.png') top center no-repeat;
+	}
+	.wrapper > .row {
+		background: white;
+		> .column, > .columns {
+			padding: 0 30px;
+		}
+		&.header {
+			background: transparent;
+			margin-bottom: 130px;
+			> .column, > .columns {
+				padding: 0;
+			}
+		}
+	}
+}
+
+
+.leader {
+		margin-top: 15px;
+}
+
+.row.calculator {
+	padding-bottom: 16px;
+	margin: 0 0 16px 0 ;
+	background: white url('../images/border-bottom.png') bottom center no-repeat;
+	.row {
+		margin: 0;
+	}
+}
+
+label.inline {
+	margin: 0;
+}
+
+.term-content .loantype {
+	text-transform: capitalize;
+}
+
+dl.tabs {
+	border: none;
+	background: white url('../images/border-top.png') bottom center no-repeat;
+	margin-top: 12px;
+	height: 45px;
+	dd, dd.active {
+		position: relative;
+		border-top: none;
+		margin-top: 0;
+		a {
+			border: none;
+			background: none;
+			padding: 0 16px;
+			font-weight: bold;
+			&:hover {
+				color: #faa61a;
+			}
+		}
+	}
+	dd.active a {
+		color: #005baa;
+	}
+	dd.active::before {
+				@include cssTriangle(15px, #faa61a, top); position: absolute; top: 40px; left: 30px;
+	}
+}
+
+.ru dl.tabs {
+	dd a {
+		line-height: 17px;
+		text-align: center;
+	}
+}
+
+
+
+ul.tabs-content {
+	margin: 0;
+	.description p {
+		margin-top: 24px;
+		margin-bottom: 6px;
+		font-size: 12px;
+		color: gray;
+	}
+}
+
+p.disclaimer {
+		font-size: 12px;
+		color: gray;
+}
+
+
+.paper {
+	
+	> .row {
+		background: white url('../images/bg-paper-cont.jpg') top center repeat-y;
+		background-size: 100%;
+		&.top {
+			background: white url('../images/bg-paper-top.jpg') top center repeat-y;
+		}
+		> .column, > .columns {
+			padding: 0 0 0 30px;
+		}
+	}
+	h3 {
+		margin-bottom: 22px;
+		margin-top:22px;
+		font-family: Georgia, serif;
+	}
+}
+
+.overview {
+	color: white;
+	a, h5 {
+		color: white;
+	}
+	a:hover {
+		color: #f5a500;
+	}
+	border: 1px solid gray;
+	background: #5582d8;
+	@include border-radius(4px, 4px);
+	@include box-shadow (-2px 2px 10px 0px rgba(127, 127, 127, 0.5));
+
+}
+
+.value {
+	float: right;
+	font-weight: bold;
+}
+
+.readmore { font-size: 16px; font-weight: bold; }
+
+/* table */
+
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td {
+	font-size: 14px;
+	font-family: serif;
+}
+
+table {
+	border: none;
+	border-spacing: 0;
+	background: transparent;
+	
+	thead tr th, tfoot tr th, tbody tr td, tr td, tfoot tr td {
+		font-size: 14px;
+		font-family: serif;
+	}
+	
+	em {
+		color: gray;
+	}
+
+
+	tbody {
+		tr:nth-child(even) {
+			background: transparent;
+		}
+
+		tr td {
+			border: 1px black solid;
+			
+			&.term-head {
+				width: 25%;
+			}
+			&.term-content {
+				content: 35%;
+			}
+			
+			&.explanation { border: none;
+				width: 40%;
+				font-family: $bodyFontFamily;
+				position: relative;
+				&.hastext {
+					background: transparent;
+				}
+				&.hastext > div {
+					position: relative;
+					background: $tkaOrange;
+					padding: 12px;
+					@include border-radius(5px, 5px);
+					@include box-shadow (-2px 2px 10px 0px rgba(127, 127, 127, 0.5));
+					&:before { @include cssTriangle(20px, #faa61a, $defaultOpposite); position: absolute; left: -40px;}
+					&:hover {
+						background: #ffbe21;
+						@include box-shadow (-2px 2px 10px 1px rgba(127, 127, 127, 0.5));	
+					}
+				}
+			}
+			
+			ul {
+				margin-bottom: 6px;
+				margin-left: 18px;
+				list-style-position: outside;
+				li {
+					line-height: 1.4;
+				}
+			}
+			
+			span.highlight {
+				padding: 0 6px;
+				background: $tkaOrange; 
+			}
+		}
+	}
+}
+
+.ui-widget-content, .ui-widget-header {
+	@include box-shadow (inset -2px 2px 10px 0px rgba(127, 127, 127, 0.5));
+}
+
+.ui-widget-header {background: #5582d8;}
+
+.ui-slider-handle.ui-state-default {background: #f5a500;
+	@include box-shadow (-2px 2px 10px 0px rgba(127, 127, 127, 0.5));
+}
+
+.ui-corner-all { @include border-radius(10px, 10px); }
+
+.ui-slider {
+	margin-top: 10px;
+}
+
+
+.has-tip {
+	border-bottom: none;
+}
+
+@import url('./savo.css');
+
