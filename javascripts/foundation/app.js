@@ -131,7 +131,7 @@
 	$(".amount-slider").slider({
 		range: "min",
 		min: rates["#tab1"]["amount"]["min"],
-		max: rates["#tab1"]["amount"]["step"],
+		max: rates["#tab1"]["amount"]["max"],
 		step: 50,
 		value: rates["#tab1"]["amount"]["avg"],
 		slide: function(event, ui) {
