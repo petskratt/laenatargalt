@@ -6,9 +6,9 @@ $tkaOrange: #faa61a;
 
 body {
 	min-width: 480px;
-	background: black url('../images/bg.png') top left;
+	background: black url('../images/bg.png') top center;
 	.wrapper {
-		background: transparent url('../images/mood.png') top center no-repeat;
+		background: transparent url('../images/mood.jpg') top center no-repeat;
 	}
 	.wrapper > .row {
 		background: white;
@@ -28,6 +28,10 @@ body {
 
 .leader {
 		margin-top: 15px;
+}
+
+.clearfix {
+	@include clearfix();
 }
 
 .row.calculator {
@@ -74,6 +78,36 @@ dl.tabs {
 	}
 }
 
+@media only screen and (max-width: $screenSmall - 1) {
+
+	dl.tabs {
+		background: none;
+		dd a {
+			background: lightgray;
+			border-top: 1px solid gray;
+			border-right: 1px solid gray;
+		}
+		dd.active {
+			a {
+				background: $tkaOrange;
+				&:hover {
+					color: #faa61a;
+				}
+			}
+		}
+		dd.active a {
+			color: #005baa;
+		}
+		dd.active::before {
+			content: none;
+		}
+	}
+
+
+
+}	
+
+
 .ru dl.tabs {
 	dd a {
 		line-height: 17px;
@@ -106,6 +140,9 @@ p.disclaimer {
 		background-size: 100%;
 		&.top {
 			background: white url('../images/bg-paper-top.jpg') top center repeat-y;
+			@media only screen and (max-width: $screenSmall - 1) {
+				background-image: none;
+			}			
 		}
 		> .column, > .columns {
 			padding: 0 0 0 30px;

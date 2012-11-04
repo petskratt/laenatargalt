@@ -1,9 +1,50 @@
+// @codekit-prepend "jquery.foundation.forms.js";
+// @codekit-prepend "jquery.foundation.tooltips.js";
+
 ;(function ($, window, undefined) {
   'use strict';
+	
+	var rates = { "#tab1": { rate: { min: 12, max: 22, avg: 18 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
+							term: { min: 30, max: 360, avg: 60, step: 30 },
+							amount: { min: 200, max: 4000, avg: 500 },
+							fee: { min: 10, max: 10, rate: 0 },
+							penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab2": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "järelmaks", rus: "кредит в рассрочку" },
+				  			term: { min: 120, max: 1440, avg: 240, step: 30 },
+							amount: { min: 120, max: 10000, avg: 800 },
+							fee: { min: 17, max: 17, rate: 0 },
+							penalty: { fee: 16, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab3": { rate: { min: 2, max: 6, avg: 3.5 }, name: { est: "kodulaen", rus: "жилищный кредит" },
+				  			term: { min: 1440, max: 14400, avg: 3600, step: 360 },
+							amount: { min: 1900, max: 200000, avg: 50000 },
+							fee: { min: 64, max: 192, rate: 0.01 },
+							penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab4": { rate: { min: 5.5, max: 12, avg: 6 }, name: { est: "autoliising", rus: "лизинг автомобилей"  },
+				  			term: { min: 360, max: 2160, avg: 1440, step: 30 },
+							amount: { min: 3000, max: 100000, avg: 10000 },
+							fee: { min: 175, max: 9999999, rate: 0.01 },
+							penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab5": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "väikelaen", rus: "потребительский кредит" },
+				  			term: { min: 30, max: 1800, avg: 60, step: 30 },
+							amount: { min: 320, max: 10000, avg: 1000 },
+							fee: { min: 32, max: 9999999, rate: 0.015 },
+							penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab6": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "arvelduslaen", rus: "расчетный кредит" },
+				  			term: { min: 30, max: 360, avg: 60, step: 30 },
+							amount: { min: 190, max: 2000, avg: 500 },
+							fee: { min: 6, max: 9999999, rate: 0.01 },
+							penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
+				  "#tab7": { rate: { min: 112, max: 245, avg: 146 }, name: { est: "kiirlaen", rus: "быстрый кредит" },
+				  			term: { min: 30, max: 360, avg: 60, step: 30 },
+							amount: { min: 50, max: 1500, avg: 130 },
+							fee: { min: 0, max: 9999999, rate: 0.35 },
+							penalty: { fee: 20, rate: { est: "0,75% päevas", rus: "0,75% в день" } } }
+				  };
 
-  var fee = { min: 10, max: 10, rate: 0 };
+  var fee = rates["#tab1"]["fee"]; // { min: 10, max: 10, rate: 0 };
+  var penalty = rates["#tab1"]["penalty"]; // { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } };
+
   var periods = { "est": { day: "päeva", month: "kuud", year: "aastat"}, "rus": { day: "д.", month: "мес.", year: "лет"} };
-  var penalty = { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } };
   
   // 'improve' Math.round() to support a second argument http://stackoverflow.com/a/10453009
   var _round = Math.round;
@@ -38,10 +79,7 @@
 	var r = (Math.pow(1/x,12)-1);
 	
 	return r;
-
-	  
   }
-  
   
   
   $.fn.loanCalc = function (amount, period, interest) {
@@ -88,42 +126,36 @@
 	  	
 	  };
   
-
-  
-  
   $(document).ready(function() {
     
 	$(".amount-slider").slider({
 		range: "min",
-		min: 200,
-		max: 4000,
+		min: rates["#tab1"]["amount"]["min"],
+		max: rates["#tab1"]["amount"]["step"],
 		step: 50,
-		value: 500,
+		value: rates["#tab1"]["amount"]["avg"],
 		slide: function(event, ui) {
-		 // $("#sum").html(ui.value);
 		 $.fn.loanCalc (ui.value, parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value"))  );
 		}
 	});
 	
 	$(".period-slider").slider({
 		range: "min",
-		min: 30,
-		max: 360,
-		step: 30,
-		value: 60,
+		min: rates["#tab1"]["term"]["min"],
+		max: rates["#tab1"]["term"]["max"],
+		step: rates["#tab1"]["term"]["step"],
+		value: rates["#tab1"]["term"]["avg"],
 		slide: function(event, ui) {
-		 // $("#sum").html(ui.value);
-		  
 		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), ui.value, parseFloat ($(".interest-slider").slider("value")) );
 		}
 	});
 	
 	$(".interest-slider").slider({
 		range: "min",
-		min: 12,
-		max: 22,
+		min: rates["#tab1"]["rate"]["min"],
+		max: rates["#tab1"]["rate"]["max"],
 		step: 0.5,
-		value: 18,
+		value: rates["#tab1"]["rate"]["avg"],
 		slide: function(event, ui) {
 		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), ui.value);
 		}
@@ -142,52 +174,11 @@
 
     var activateTab = function ($tab) {
      
-    
-      var rates = { "#tab1": { rate: { min: 12, max: 22, avg: 18 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
-      						term: { min: 30, max: 360, avg: 60, step: 30 },
-      						amount: { min: 200, max: 4000, avg: 500 },
-      						fee: { min: 10, max: 10, rate: 0 },
-      						penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab2": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "järelmaks", rus: "кредит в рассрочку" },
-      			  			term: { min: 120, max: 1440, avg: 240, step: 30 },
-      						amount: { min: 120, max: 10000, avg: 800 },
-      						fee: { min: 17, max: 17, rate: 0 },
-      						penalty: { fee: 16, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab3": { rate: { min: 2, max: 6, avg: 3.5 }, name: { est: "kodulaen", rus: "жилищный кредит" },
-      			  			term: { min: 1440, max: 14400, avg: 3600, step: 360 },
-      						amount: { min: 1900, max: 200000, avg: 50000 },
-      						fee: { min: 64, max: 192, rate: 0.01 },
-      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab4": { rate: { min: 5.5, max: 12, avg: 6 }, name: { est: "autoliising", rus: "лизинг автомобилей"  },
-      			  			term: { min: 360, max: 2160, avg: 1440, step: 30 },
-      						amount: { min: 3000, max: 100000, avg: 10000 },
-      						fee: { min: 175, max: 9999999, rate: 0.01 },
-      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab5": { rate: { min: 13, max: 26, avg: 19 }, name: { est: "väikelaen", rus: "потребительский кредит" },
-      			  			term: { min: 30, max: 1800, avg: 60, step: 30 },
-      						amount: { min: 320, max: 10000, avg: 1000 },
-      						fee: { min: 32, max: 9999999, rate: 0.015 },
-      						penalty: { fee: 8, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab6": { rate: { min: 14, max: 25, avg: 19 }, name: { est: "arvelduslaen", rus: "расчетный кредит" },
-      			  			term: { min: 30, max: 360, avg: 60, step: 30 },
-      						amount: { min: 190, max: 2000, avg: 500 },
-      						fee: { min: 6, max: 9999999, rate: 0.01 },
-      						penalty: { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } } },
-      			  "#tab7": { rate: { min: 112, max: 245, avg: 146 }, name: { est: "kiirlaen", rus: "быстрый кредит" },
-      			  			term: { min: 30, max: 360, avg: 60, step: 30 },
-      						amount: { min: 50, max: 1500, avg: 130 },
-      						fee: { min: 0, max: 9999999, rate: 0.35 },
-      						penalty: { fee: 20, rate: { est: "0,75% päevas", rus: "0,75% в день" } } }
-      			  };
-
-    
       var $activeTab = $tab.closest('dl, ul').find('.active'),
           target = $tab.children('a').attr("href"),
           hasHash = /^#/.test(target),
           contentLocation = '';
        
-      //alert(rates[target]["avg"]);
-      
       $(".interest-slider").slider( "option", "min", rates[target]["rate"]["min"] );
       $(".interest-slider").slider( "option", "max", rates[target]["rate"]["max"] );
       $(".interest-slider").slider( "option", "value", rates[target]["rate"]["avg"] );
@@ -206,7 +197,6 @@
       fee = rates[target]["fee"];
       penalty = rates[target]["penalty"];
 
-      
       $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value")) );
 
       if (hasHash) {
@@ -245,12 +235,6 @@
     $.fn.foundationClearing         ? $doc.foundationClearing() : null;
   });
 
-  // UNCOMMENT THE LINE YOU WANT BELOW IF YOU WANT IE8 SUPPORT AND ARE USING .block-grids
-  // $('.block-grid.two-up>li:nth-child(2n+1)').css({clear: 'both'});
-  // $('.block-grid.three-up>li:nth-child(3n+1)').css({clear: 'both'});
-  // $('.block-grid.four-up>li:nth-child(4n+1)').css({clear: 'both'});
-  // $('.block-grid.five-up>li:nth-child(5n+1)').css({clear: 'both'});
-
   // Hide address bar on mobile devices (except if #hash present, so we don't mess up deep linking).
   if (Modernizr.touch && !window.location.hash) {
     $(window).load(function () {
@@ -260,7 +244,6 @@
     });
   }
   
-
 // fix for flash player z-index
 
 $('iframe').each(function() {
@@ -281,3 +264,15 @@ $('iframe').each(function() {
 
 
 })(jQuery, this);
+
+// uservoice
+
+/*
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/YnVsGWDq3Xw9Ki78vbJGw.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+  
+*/
