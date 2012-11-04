@@ -240,12 +240,9 @@
       Modernizr = window.Modernizr;
 
   $(document).ready(function() {
-    $.fn.foundationButtons          ? $doc.foundationButtons() : null;
     $.fn.foundationTabs             ? $doc.foundationTabs({callback : $.foundation.customForms.appendCustomMarkup}) : null;
     $.fn.foundationTooltips         ? $doc.foundationTooltips() : null;
     $.fn.foundationClearing         ? $doc.foundationClearing() : null;
-
-    $('input, textarea').placeholder();
   });
 
   // UNCOMMENT THE LINE YOU WANT BELOW IF YOU WANT IE8 SUPPORT AND ARE USING .block-grids
