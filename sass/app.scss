@@ -105,7 +105,7 @@ dl.tabs {
 
 
 
-}	
+}
 
 
 .ru dl.tabs {
@@ -134,7 +134,7 @@ p.disclaimer {
 
 
 .paper {
-	
+
 	> .row {
 		background: white url('../images/bg-paper-cont.jpg') top center repeat-y;
 		background-size: 100%;
@@ -142,7 +142,7 @@ p.disclaimer {
 			background: white url('../images/bg-paper-top.jpg') top center repeat-y;
 			@media only screen and (max-width: $screenSmall - 1) {
 				background-image: none;
-			}			
+			}
 		}
 		> .column, > .columns {
 			padding: 0 0 0 30px;
@@ -188,12 +188,12 @@ table {
 	border: none;
 	border-spacing: 0;
 	background: transparent;
-	
+
 	thead tr th, tfoot tr th, tbody tr td, tr td, tfoot tr td {
 		font-size: 14px;
 		font-family: serif;
 	}
-	
+
 	em {
 		color: gray;
 	}
@@ -206,14 +206,14 @@ table {
 
 		tr td {
 			border: 1px black solid;
-			
+
 			&.term-head {
 				width: 25%;
 			}
 			&.term-content {
 				content: 35%;
 			}
-			
+
 			&.explanation { border: none;
 				width: 40%;
 				font-family: $bodyFontFamily;
@@ -230,11 +230,11 @@ table {
 					&:before { @include cssTriangle(20px, #faa61a, $defaultOpposite); position: absolute; left: -40px;}
 					&:hover {
 						background: #ffbe21;
-						@include box-shadow (-2px 2px 10px 1px rgba(127, 127, 127, 0.5));	
+						@include box-shadow (-2px 2px 10px 1px rgba(127, 127, 127, 0.5));
 					}
 				}
 			}
-			
+
 			ul {
 				margin-bottom: 6px;
 				margin-left: 18px;
@@ -243,10 +243,10 @@ table {
 					line-height: 1.4;
 				}
 			}
-			
+
 			span.highlight {
 				padding: 0 6px;
-				background: $tkaOrange; 
+				background: $tkaOrange;
 			}
 		}
 	}

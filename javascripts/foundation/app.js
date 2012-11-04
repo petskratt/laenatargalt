@@ -3,7 +3,7 @@
 
 ;(function ($, window, undefined) {
   'use strict';
-	
+
 	var rates = { "#tab1": { rate: { min: 12, max: 22, avg: 18 }, name: { est: "krediidkaart", rus: "кредитная карточка" },
 							term: { min: 30, max: 360, avg: 60, step: 30 },
 							amount: { min: 200, max: 4000, avg: 500 },
@@ -45,31 +45,31 @@
   var penalty = rates["#tab1"]["penalty"]; // { fee: 3, rate: { est: "8% aastas", rus: "8% в год" } };
 
   var periods = { "est": { day: "päeva", month: "kuud", year: "aastat"}, "rus": { day: "д.", month: "мес.", year: "лет"} };
-  
+
   // 'improve' Math.round() to support a second argument http://stackoverflow.com/a/10453009
   var _round = Math.round;
   Math.round = function(number, decimals /* optional, default 0 */)
 	{
 	  if (arguments.length == 1)
 	    return _round(number);
-	
+
 	  var multiplier = Math.pow(10, decimals);
 	  return _round(number * multiplier) / multiplier;
 	}
-  
+
   function calculateAPRmagic(loanamount, fee, annuity, numpayments) {
-  
+
   	/* from http://brian-stewart.orpheusweb.co.uk/credit/javascript/equalapr.htm */
-  	
+
 	var p=loanamount;
 	var i=fee;
 	var a=annuity;
 	var n=numpayments;
 	var f=0;
-	
+
 	//Isaac's magic ...
 	var x=1.0001; var fx=0; var dx=0; var z=0;
-	
+
 	do {
 		fx=i+a*(Math.pow(x,n+1)-x)/(x-1)+f*Math.pow(x,n)-p;
 		dx=a*(n*Math.pow(x,n+1)-(n+1)*Math.pow(x,n)+1)/Math.pow(x-1,2)+n*f*Math.pow(x,n-1);
@@ -77,24 +77,24 @@
 	} while (Math.abs(z)>1e-9);
 
 	var r = (Math.pow(1/x,12)-1);
-	
+
 	return r;
   }
-  
-  
+
+
   $.fn.loanCalc = function (amount, period, interest) {
-  
+
   		var currentFee = amount * fee["rate"];
   		if ( currentFee < fee["min"] ) { currentFee = fee["min"]; }
   		if ( currentFee > fee["max"] ) { currentFee = fee["max"]; }
 
-  		
+
   		$(".fee").html(Math.round(currentFee));
   		$(".penalty").html(penalty["rate"][lang]);
   		$(".penalty-fee").html(penalty["fee"]);
-  		
+
 	  	$(".sum").html(amount);
-	  	
+
 	  	if (period < 60) {
 	  		$(".time").html( Math.round(period, 1) + " " + periods[lang]["day"]);
 	  	} else if (period < 720) {
@@ -102,32 +102,32 @@
 	  	} else {
 		  	$(".time").html( Math.round(period/30/12, 1) + " " + periods[lang]["year"] );
 	  	}
-	  	
+
 	  	$(".payments").html( Math.round(period/30, 1) );
-	  	
+
 	  	$(".interest").html(interest);
-	  	
+
 	  	var rate = interest / 100;
 	  	var monthlyRate = rate / 12;
 	  	var payments = Math.round(period/30);
 		var annuity = ((amount) * monthlyRate * Math.pow(1+monthlyRate,payments)) / (Math.pow(1+monthlyRate, payments)-1);
 		var totalsum = annuity * (period/30);
 		var totalinterest = totalsum - amount;
-	  	
+
 	  	$(".annuity").html(Math.round(annuity));
 	  	$(".totalsum").html(Math.round(totalsum));
 	  	$(".totalinterest").html(Math.round(totalinterest));
 	  	$(".amountminusfee").html(Math.round(amount-currentFee));
 	  	$(".reversediscount").html( Math.round( (totalsum / (amount-currentFee)) * 100 ) - 100 );
-	  	
+
 	  	var apr = calculateAPRmagic (amount, currentFee, annuity, payments);
-	  	
+
 	  	$(".apr").html(Math.round(apr*100, 2));
-	  	
+
 	  };
-  
+
   $(document).ready(function() {
-    
+
 	$(".amount-slider").slider({
 		range: "min",
 		min: rates["#tab1"]["amount"]["min"],
@@ -138,7 +138,7 @@
 		 $.fn.loanCalc (ui.value, parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value"))  );
 		}
 	});
-	
+
 	$(".period-slider").slider({
 		range: "min",
 		min: rates["#tab1"]["term"]["min"],
@@ -149,7 +149,7 @@
 		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), ui.value, parseFloat ($(".interest-slider").slider("value")) );
 		}
 	});
-	
+
 	$(".interest-slider").slider({
 		range: "min",
 		min: rates["#tab1"]["rate"]["min"],
@@ -160,29 +160,29 @@
 		 $.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), ui.value);
 		}
 	});
-	
+
 	$.fn.loanCalc ( parseInt ($(".amount-slider").slider("value")), parseInt ($(".period-slider").slider("value")), parseFloat ($(".interest-slider").slider("value")) );
-    
-  });  
-  
-  
+
+  });
+
+
     $.fn.foundationTabs = function (options) {
-    
+
     var settings = $.extend({
       callback: $.noop
     }, options);
 
     var activateTab = function ($tab) {
-     
+
       var $activeTab = $tab.closest('dl, ul').find('.active'),
           target = $tab.children('a').attr("href"),
           hasHash = /^#/.test(target),
           contentLocation = '';
-       
+
       $(".interest-slider").slider( "option", "min", rates[target]["rate"]["min"] );
       $(".interest-slider").slider( "option", "max", rates[target]["rate"]["max"] );
       $(".interest-slider").slider( "option", "value", rates[target]["rate"]["avg"] );
-      
+
       $(".period-slider").slider( "option", "min", rates[target]["term"]["min"] );
       $(".period-slider").slider( "option", "max", rates[target]["term"]["max"] );
       $(".period-slider").slider( "option", "value", rates[target]["term"]["avg"] );
@@ -191,9 +191,9 @@
       $(".amount-slider").slider( "option", "min", rates[target]["amount"]["min"] );
       $(".amount-slider").slider( "option", "max", rates[target]["amount"]["max"] );
       $(".amount-slider").slider( "option", "value", rates[target]["amount"]["avg"] );
-      
+
       $(".loantype").html(rates[target]["name"][lang]);
-      
+
       fee = rates[target]["fee"];
       penalty = rates[target]["penalty"];
 
@@ -225,7 +225,7 @@
     }
 
   };
-  
+
   var $doc = $(document),
       Modernizr = window.Modernizr;
 
@@ -243,7 +243,7 @@
       }, 0);
     });
   }
-  
+
 // fix for flash player z-index
 
 $('iframe').each(function() {
@@ -260,7 +260,7 @@ $('iframe').each(function() {
       "wmode" : "Opaque"
     });
   }
-});  
+});
 
 
 })(jQuery, this);
@@ -274,5 +274,5 @@ $('iframe').each(function() {
     uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/YnVsGWDq3Xw9Ki78vbJGw.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
-  
+
 */
