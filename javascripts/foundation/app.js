@@ -37,7 +37,7 @@
 				  "#tab7": { rate: { min: 112, max: 245, avg: 146 }, name: { est: "kiirlaen", rus: "быстрый кредит" },
 				  			term: { min: 30, max: 360, avg: 60, step: 30 },
 							amount: { min: 50, max: 1500, avg: 130 },
-							fee: { min: 0, max: 9999999, rate: 0.35 },
+							fee: { min: 0, max: 9999999, rate: 0.07 },
 							penalty: { fee: 20, rate: { est: "0,75% päevas", rus: "0,75% в день" } } }
 				  };
 
