@@ -1,11 +1,13 @@
 @import "settings";
 @import "foundation";
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700);
 
 $tkaBlue: #005baa;
 $tkaOrange: #faa61a;
 
 body {
 	min-width: 480px;
+	margin-top: 50px;
 	background: black url('../images/bg.png') top center;
 	.wrapper {
 		background: transparent url('../images/mood.jpg') top center no-repeat;
@@ -273,3 +275,71 @@ table {
 	border-bottom: none;
 }
 
+#access {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #2d2b28;
+	z-index: 10;
+	.row {position: relative;}
+	.nav-bar {
+		height: auto;
+		background: none;
+		text-align: center;
+		margin: 0;
+		li {
+			display: inline-block;
+			float: none;
+			line-height: 50px;
+			box-shadow: none;
+			border: none;
+			&.active, &:hover {
+				background: none;
+				a {color: #fff;}
+			}
+			&:last-child a:after {content: none;}
+			a {
+				font-family: 'Source Sans Pro', sans-serif;
+				font-size: 15px;
+				font-weight: bold;
+				text-transform: uppercase;
+				color: #f8b435;
+				padding: 0;
+				&:after {
+					content: "|";
+					display: inline-block;
+					color: #fff;
+					margin: 0 5px;
+				}
+			}
+		}
+	}
+}
+
+
+.langmenu {
+	background: url(../images/bg-langmenu.png) no-repeat;
+	width: 94px;
+	height: 55px;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	color: white;
+	text-align: center;
+	padding-top: 20px;
+	z-index: 2;
+	span {
+		color: white;
+		margin:0 3px;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	a {
+		span {color: $mainColor;}
+	}
+}
+
+.ru {
+	.langmenu {top: 35px;}
+}
